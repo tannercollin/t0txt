@@ -76,6 +76,7 @@ def new():
 
             txt = request.form['txt']
             if not txt: raise
+            if len(txt) > 250000: raise
             db[nid] = txt
 
             print('Adding note {}:\n{}'.format(nid, txt))
