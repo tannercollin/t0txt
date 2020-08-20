@@ -90,7 +90,8 @@ def new():
         abort(400)
 
 @flask_app.route('/<nid>', methods=['GET'])
-def get(nid):
+@flask_app.route('/<nid>/<filename>', methods=['GET'])
+def get(nid, filename=None):
     try:
         with shelve.open(DB) as db:
             return db[nid] + '\n', 200, {'Content-Type': 'text/plain; charset=utf-8'}
