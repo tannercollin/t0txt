@@ -16,10 +16,13 @@ def help():
     form = (
         '<form action="{0}" method="POST" accept-charset="UTF-8">'
 	'<input name="web" type="hidden" value="true">'
-        '<textarea name="{1}" cols="60" rows="18"></textarea>'
+        '<input name="name" style="border: none;">'
+        '<br><textarea name="{1}" cols="60" rows="18"></textarea>'
+        '<br>CAPTCHA: Who owns this site? <input name="captcha">'
         '<br><button type="submit">Submit</button></form>'.format(URL, POST)
     )
     return """
+<meta name="viewport" content="width=device-width, initial-scale=0.8">
 <pre>
                         txt.t0.vc
 NAME
@@ -28,7 +31,6 @@ NAME
 USAGE
     &lt;command&gt; | curl -F '{0}=&lt;-' {1}
     or upload from the web:
-
 {2}
 
 DESCRIPTION
@@ -68,21 +70,42 @@ def index():
 
 @flask_app.route('/', methods=['POST'])
 def new():
+    print()
     try:
+        is_web = 'web' in request.form
+
+        name = request.form.get('name', None)
+        if name:
+            print('Name filled out:', name)
+
+        captcha = request.form.get('captcha', None)
+        if is_web and captcha.lower() not in ['tanner', 'tanner collin', 'tannercollin', 'collin']:
+            print('Captcha failed:', captcha)
+            return redirect('https://txt.t0.vc/LPPZ')
+        else:
+            print('Captcha passed:', captcha)
+
         with shelve.open(DB) as db:
             nid = new_id()
             while nid in db:
                 nid = new_id()
 
             txt = request.form['txt']
-            if not txt: raise
-            if len(txt) > 250000: raise
+
+            if not txt:
+                print('Note is empty.')
+                raise
+            if len(txt) > 250000:
+                print('Note too large.')
+                raise
+
             db[nid] = txt
 
-            print('Adding note {}:\n{}'.format(nid, txt))
+        print('Adding note {} via {}:\n{}'.format(nid, 'web' if is_web else 'api', txt))
 
         url = '{}/{}'.format(URL, nid)
-        if 'web' in request.form:
+
+        if is_web:
             return redirect(url)
         else:
             return url + '\n'
