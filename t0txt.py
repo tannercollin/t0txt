@@ -76,10 +76,11 @@ def new():
 
         name = request.form.get('name', None)
         if name:
+            # TODO: fail if name field is filled out
             print('Name filled out:', name)
 
         captcha = request.form.get('captcha', None)
-        if is_web and captcha.lower() not in ['tanner', 'tanner collin', 'tannercollin', 'collin']:
+        if is_web and 'tanner' not in captcha.lower() and 'collin' not in captcha.lower():
             print('Captcha failed:', captcha)
             return redirect('https://txt.t0.vc/LPPZ')
         else:
