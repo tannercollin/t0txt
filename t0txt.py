@@ -22,7 +22,8 @@ def help():
         '<br><button type="submit">Submit</button></form>'.format(URL, POST)
     )
     return """
-<meta name="viewport" content="width=device-width, initial-scale=0.8">
+<meta name="color-scheme" content="light dark" />
+<meta name="viewport" content="width=1%" />
 <pre>
                         txt.t0.vc
 NAME
