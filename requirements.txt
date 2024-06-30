@@ -1,7 +1,9 @@
-Click==7.0
-Flask==1.1.1
-itsdangerous==1.1.0
-Jinja2==2.11.3
-MarkupSafe==1.1.1
-pkg-resources==0.0.0
-Werkzeug==0.15.5
+blinker==1.8.2
+click==8.1.7
+flask==3.0.3
+importlib-metadata==8.0.0
+itsdangerous==2.2.0
+jinja2==3.1.4
+MarkupSafe==2.1.5
+werkzeug==3.0.3
+zipp==3.19.2
